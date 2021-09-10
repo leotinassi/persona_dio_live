@@ -14,12 +14,12 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/people")
+@RequestMapping("/api/v1")
 public class PersonController {
 
     private PersonService personService;
-    @Autowired
 
+    @Autowired
     public PersonController(PersonService personService) {
         this.personService = personService;
     }
@@ -30,7 +30,7 @@ public class PersonController {
         return personService.createPerson(personDTO);
 
     }
-    @GetMapping
+    @GetMapping("/people")
     public List<PersonDTO> listALL(){
          return personService.listALL();
 
@@ -40,4 +40,11 @@ public class PersonController {
     public PersonDTO findById(@PathVariable Long id) throws PersonNotFoundException {
         return personService.findById(id);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) throws PersonNotFoundException {
+        personService.delete(id);
+    }
+
 }
